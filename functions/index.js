@@ -6,50 +6,53 @@ admin.initializeApp();
 //  * See a full list of supported triggers at https://firebase.google.com/docs/functions
  
 
-const {onRequest} = require("firebase-functions/v2/https");
+const onRequest = require("firebase-functions/v2/https");
 const logger = require("firebase-functions/logger");
 
 
-exports.helloWorld = functions.https.onRequest((request, response) => {
-  console.log("He came through");
-  response.send("Hello from Firebase!");
-});
-// async function logUserDetails(id) {
-//   try {
-//     const id = "0K8YpdELLbTty6DVq6KulwS8E0K3";
-//     const city = 'Abuja';
-//     const country = 'Nigeria'
-//     const desired_qualities = ["Financial Stability", "Emotional Intelligence", "Decisiveness", "Communication", "Independence"]
-//     const userRef = admin.firestore().collection('users');
-//     const userData = await userRef.where('city', '==', city)
-//     .where('country', '==', country)
-//     .where('desired_qualities', '==', desired_qualities).get();
-
-//     if (userData.empty) {
-//       console.log('User not found.');
-//       return Response.json({message: 'User not found'}) // or handle the case where no user is found
-//     }
+// exports.helloWorld = functions.https.onRequest((request, response) => {
+//   console.log("He came through");
+//   const city = request.query.city;
+//   return response.send({message: "Hello from Firebase!", city: city});
+// });
+exports.logUserDetails = functions.https.onRequest(async(request, response) => {
+  // try {
+    let id = "pmefIdtIPVauOk8XZYrfKrXk1hC3";
+    console.log("id", id);
+    const city = 'Abuja';
+    const country = 'Nigeria'
+    const desired_qualities = ["Financial Stability", "Emotional Intelligence", "Decisiveness", "Communication", "Independence"]
+    const userRef = admin.firestore().collection('users');
+    const userData = await userRef.where('city', '==', city)
+    // .where('country', '==', country)
+    .where('desired_qualities', '==', desired_qualities).get();
+    console.log({data: userData.docs});
+    response.send({data: userData.docs})
+    // if (userData.empty) {
+    //   console.log('User not found.');
+    //   return Response.json({message: 'User not found'}) // or handle the case where no user is found
+    // }
 
 //     for (const userDoc of userData.docs) { // Iterate through QueryDocumentSnapshot objects
 //       const { city, country } = userDoc.data(); // Destructure city and country from data
 //       console.log("City:", city);
 //       console.log("Country:", country);
-//     }
+    // }
 //   } catch (error) {
 //     console.error('Error retrieving user details:', error);
 //     throw error;
 //   }
-// }
+// });
 //   // let userId = 'ETYeda1i7niwclRevt2K'
-//   let id = "0K8YpdELLbTty6DVq6KulwS8E0K3"
-//   logUserDetails(id)
-  //   .then(userData => {
-  //     return (userData)
-  //   })
-  //   .catch(error => {
-  //     console.log(error)
-  //   });
-
+  // let id = "0K8YpdELLbTty6DVq6KulwS8E0K3"
+  logUserDetails(id)
+    .then(userData => {
+      return (userData.docs.hobbies)
+    })
+    .catch(error => {
+      console.log(error)
+    });
+});
     // async function getRecommendedProfiles (req, res) {
     // try {
     //   let id = "0K8YpdELLbTty6DVq6KulwS8E0K3"
@@ -103,7 +106,7 @@ exports.helloWorld = functions.https.onRequest((request, response) => {
       //               ageDifference
       //           });
       //       }
-      //   });
+        // });
 
         // Sort recommended profiles by similarity scores
 //         recommendedProfiles.sort((a, b) => {

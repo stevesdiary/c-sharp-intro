@@ -1,0 +1,45 @@
+const functions = require('firebase-functions');
+const admin = require('firebase-admin');
+admin.initializeApp();
+
+exports.getRecommendedProfiles = functions.https.onCall(async (data, context) => {
+    const currentUser = data;
+    const db = admin.firestore();
+    const usersRef = db.collection('users');
+
+    // Fetch all users
+    const snapshot = await usersRef.get();
+    const users = snapshot.docs.map(doc => doc.data());
+
+    // Filter based on criteria
+    const recommendedUsers = users.filter(user => {
+        // Same city & country of residence
+        const sameLocation = user.city === currentUser.city && user.country === currentUser.country;
+
+        // At least one similar selection under hobbies
+        const similarHobbies = user.hobbies.some(hobby => currentUser.hobbies.includes(hobby));
+
+        // At least one similar selection under desired qualities
+        const similarQualities = user.desired_qualities.some(quality => currentUser.desired_qualities.includes(quality));
+
+        // Age range
+        const ageDifference = Math.abs(user.age - currentUser.age);
+        const validAgeDifference = (user.gender === 'Male' && currentUser.gender === 'Female' && ageDifference <= 8) ||
+                                    (user.gender === 'Female' && currentUser.gender === 'Male' && ageDifference <= 3);
+
+        return sameLocation && similarHobbies && similarQualities && validAgeDifference;
+    });
+
+    // Sort by number of similarities
+    recommendedUsers.sort((a, b) => {
+        const similaritiesA = a.hobbies.filter(hobby => currentUser.hobbies.includes(hobby)).length +
+                                a.desired_qualities.filter(quality => currentUser.desired_qualities.includes(quality)).length;
+        const similaritiesB = b.hobbies.filter(hobby => currentUser.hobbies.includes(hobby)).length +
+                                b.desired_qualities.filter(quality => currentUser.desired_qualities.includes(quality)).length;
+
+        return similaritiesB - similaritiesA;
+    });
+
+    // Limit to top 20
+    return recommendedUsers.slice(0, 20);
+});

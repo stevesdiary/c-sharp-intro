@@ -8,7 +8,7 @@ namespace HelloWorld
 	{
 		static void Main(string[] args)
 		{
-			Console.WriteLine("Hello world! of C#");
+			Console.WriteLine("Welcome to my world of C-Sharp");
 		}
 	}
 } 

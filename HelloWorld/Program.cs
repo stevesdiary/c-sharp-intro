@@ -9,7 +9,7 @@ namespace HelloWorld
 		static void Main(string[] args)
 		{
 			Console.WriteLine("Welcome to my world of C-Sharp");
-			Console.WriteLine("We'll die into this journey");
+			Console.WriteLine("We'll dive into this journey");
 		}
 	}
 } 

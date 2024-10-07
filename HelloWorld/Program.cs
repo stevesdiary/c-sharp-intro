@@ -6,33 +6,24 @@ namespace HelloWorld
 	{
 		static void Main(string[] args)
 		{
-			int ourNumber;
-			ourNumber = 2;
-			Console.WriteLine(ourNumber);
+			int biggerNumber = 12;
+			int smallerNumber = 5;
+			Console.WriteLine("First condition");
+			if(biggerNumber != smallerNumber) {
+				Console.WriteLine(biggerNumber + " is not equal to " + smallerNumber);
+			} else {
+				Console.WriteLine(" Else ");
+			}
 
-			ourNumber = 10;
-			Console.WriteLine(ourNumber);
-
-			ourNumber = 2 + 12;
-			Console.WriteLine(ourNumber);
-
-			double decimalNumber;
-			decimalNumber = 10.15;
-			Console.WriteLine(decimalNumber);
-
-			int number = 5;
-			char myCharacter = 'S';
-			myCharacter += (char) 1;
-			Console.WriteLine(myCharacter);
-
-			string myName= "Ready";
-			Console.WriteLine(myName);
-
-			int newVariable = ourNumber - number;
-			Console.WriteLine(newVariable);
-
-			Boolean temp = true;
-			Console.WriteLine(temp);
+			Console.WriteLine("3rd condition");
+			if(biggerNumber > smallerNumber){
+				Console.WriteLine(biggerNumber + " is greater than " + smallerNumber);
+			}else if(biggerNumber != smallerNumber){
+				Console.WriteLine(biggerNumber + "is not equal to " + smallerNumber);
+			}
+			else{
+				Console.WriteLine("Else");
+			}
 		}
 	}
 }

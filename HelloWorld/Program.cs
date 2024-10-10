@@ -19,7 +19,7 @@ namespace HelloWorld
 			if(biggerNumber > smallerNumber){
 				Console.WriteLine(biggerNumber + " is greater than " + smallerNumber);
 			}else if(biggerNumber != smallerNumber){
-				Console.WriteLine(biggerNumber + "is not equal to " + smallerNumber);
+				Console.WriteLine(biggerNumber + " is not equal to " + smallerNumber);
 			}
 			else{
 				Console.WriteLine("Else");
